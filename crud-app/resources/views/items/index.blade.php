@@ -6,28 +6,28 @@
 <body> 
     <h1>Items</h1> 
 
-    <!-- Menampilkan pesan sukses jika ada, misalnya setelah tambah, edit, atau hapus item -->
+    <!-- Menampilkan pesan notifikasi jika ada aksi yang berhasil dilakukan (tambah, edit, atau hapus) -->
     @if(session('success')) 
         <p>{{ session('success') }}</p> 
     @endif 
 
-    <!-- Tombol untuk menambah item baru, mengarah ke form create -->
+    <!-- Tombol untuk menuju halaman tambah item baru -->
     <a href="{{ route('items.create') }}">Add Item</a> 
 
     <ul> 
-        <!-- Looping semua item yang dikirim dari ItemController -->
+        <!-- Melakukan iterasi untuk menampilkan semua item yang dikirim dari ItemController -->
         @foreach ($items as $item) 
         <li> 
-            <!-- Menampilkan nama item -->
+            <!-- Menampilkan nama item yang ada -->
             {{ $item->name }} - 
 
-            <!-- Link untuk edit item -->
+            <!-- Tautan untuk mengedit item yang dipilih -->
             <a href="{{ route('items.edit', $item) }}">Edit</a> 
 
-            <!-- Form untuk menghapus item -->
+            <!-- Form untuk menghapus item yang ada -->
             <form action="{{ route('items.destroy', $item) }}" method="POST" style="display:inline;"> 
-                @csrf               <!-- Token keamanan untuk mencegah CSRF -->
-                @method('DELETE')   <!-- Mengubah method menjadi DELETE sesuai RESTful -->
+                @csrf               <!-- Token keamanan untuk menghindari serangan CSRF -->
+                @method('DELETE')   <!-- Menggunakan metode DELETE agar sesuai dengan standar RESTful -->
                 <button type="submit">Delete</button> 
             </form> 
         </li> 
