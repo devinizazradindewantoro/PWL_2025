@@ -18,7 +18,7 @@
     <!-- Form untuk menghapus item ini -->
     <form action="{{ route('items.destroy', $item) }}" method="POST" style="display:inline;"> 
         @csrf <!-- Token keamanan untuk mencegah CSRF -->
-        @method('DELETE') <!-- Method DELETE untuk menghapus data sesuai dengan RESTful -->
+        @method('DELETE') <!-- Method DELETE untuk menghapus data -->
         <button type="submit">Delete</button> 
     </form> 
 

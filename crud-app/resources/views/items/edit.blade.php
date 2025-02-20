@@ -9,7 +9,7 @@
     <!-- Form untuk mengedit item yang sudah ada -->
     <form action="{{ route('items.update', $item) }}" method="POST"> 
         @csrf <!-- Token keamanan untuk mencegah CSRF -->
-        @method('PUT') <!-- Method PUT untuk update data sesuai dengan RESTful -->
+        @method('PUT') <!-- Method PUT untuk update data -->
 
         <!-- Input untuk nama item, menggunakan value dari data yang ada -->
         <label for="name">Name:</label> 

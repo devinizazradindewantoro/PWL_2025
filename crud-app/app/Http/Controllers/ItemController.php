@@ -14,8 +14,8 @@ class ItemController extends Controller
     // Function index untuk menampilkan semua item yang ada di database
     public function index()
     {
-        $items = Item::All(); // Mengambil semua data item dari tabel 'items'
-        return view('items.index', compact('items')); // Mengirim data item ke view item.index
+        $items = Item::All(); // Mengambil semua data item dari tabel items
+        return view('items.index', compact('items')); // Mengirim data item ke view items.index
     }
 
     // Function create untuk menampilkan form tambah item baru
