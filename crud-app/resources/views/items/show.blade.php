@@ -6,23 +6,23 @@
 <body> 
     <h1>Detail Item</h1> 
 
-    <!-- Menampilkan informasi nama item -->
+    <!-- Menampilkan detail nama item -->
     <p><strong>Name:</strong> {{ $item->name }}</p> 
 
-    <!-- Menampilkan informasi deskripsi item -->
+    <!-- Menampilkan detail deskripsi item -->
     <p><strong>Description:</strong> {{ $item->description }}</p> 
 
-    <!-- Tautan untuk mengedit item ini -->
+    <!-- Link untuk edit item ini -->
     <a href="{{ route('items.edit', $item) }}">Edit</a> 
 
-    <!-- Form untuk menghapus item yang sedang ditampilkan -->
+    <!-- Form untuk menghapus item ini -->
     <form action="{{ route('items.destroy', $item) }}" method="POST" style="display:inline;"> 
-        @csrf <!-- Token keamanan untuk menghindari serangan CSRF -->
-        @method('DELETE') <!-- Menggunakan metode DELETE agar sesuai dengan standar RESTful -->
+        @csrf <!-- Token keamanan untuk mencegah CSRF -->
+        @method('DELETE') <!-- Method DELETE untuk menghapus data sesuai dengan RESTful -->
         <button type="submit">Delete</button> 
     </form> 
 
-    <!-- Tautan untuk kembali ke daftar item -->
+    <!-- Link kembali ke halaman list item -->
     <a href="{{ route('items.index') }}">Back to List</a> 
 </body> 
 </html>
