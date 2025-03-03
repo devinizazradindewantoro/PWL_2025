@@ -23,3 +23,36 @@ Route::get('/', function () {
 // Route resource untuk ItemController
 // Ini otomatis membuat route untuk CRUD (Create, Read, Update, Delete) item
 Route::resource('items', ItemController::class);
+
+Route::get('/hello', function (){
+        return 'Hello World';
+});
+
+Route::get('/world', function (){
+    return 'World';
+});
+
+Route::get('/welcome', function (){
+    return 'Selamat Datang';
+});
+
+Route::get('/about', function (){
+    return '2341760034 Devin Izaz Radin Dewantoro';
+});
+
+//Route::get('/user/{Devin}', function ($name){
+  //  return 'Nama Saya ' . $name;
+//});
+
+Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId){
+    return 'Pos ke- ' .$postId." Komentar ke-: ".$commentId;
+});
+
+Route::get('/articles/{id}', function ($id) {
+    return 'Halaman Artikel dengan ID ' . $id;
+});
+
+Route::get('/user/{name?}', function ($name='John') {
+    return 'Nama saya ' . $name;
+});
+
