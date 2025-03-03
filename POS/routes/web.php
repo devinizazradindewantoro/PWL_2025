@@ -10,7 +10,7 @@ use App\Http\Controllers\UserController;
 Route::get('/', [HomeController::class, 'index']);
 
 //Product dengan Prefix
-Route::prefix('products')->group(function () {
+Route::prefix('Products')->group(function () {
     Route::get('/food-beverages', [ProductController::class, 'foodBeverages'])->name('category.food-beverage');
     Route::get('/beauty-health', [ProductController::class, 'beautyHealth'])->name('category.beauty-health');
     Route::get('/home-care', [ProductController::class, 'homeCare'])->name('category.home-care');
