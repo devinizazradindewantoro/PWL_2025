@@ -1,9 +1,16 @@
 <?php
 
 // Import class Route dari Laravel untuk mendefinisikan routing
+
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 // Import ItemController untuk menghubungkan route dengan controller
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,35 +31,29 @@ Route::get('/', function () {
 // Ini otomatis membuat route untuk CRUD (Create, Read, Update, Delete) item
 Route::resource('items', ItemController::class);
 
-Route::get('/hello', function (){
-        return 'Hello World';
-});
+Route::get('/hello', [WelcomeController::class, 'hello']);
 
-Route::get('/world', function (){
+Route::get('/world', function () {
     return 'World';
 });
 
-Route::get('/welcome', function (){
-    return 'Selamat Datang';
+Route::get('/index', [HomeController::class, 'index']);
+
+Route::get('/about', [AboutController::class, 'about']);
+
+Route::get('/articles/{id}', [ArticleController::class, 'articles']);
+
+Route::get('/user/{Devin}', function ($name) {
+    return 'Nama Saya ' . $name;
 });
 
-Route::get('/about', function (){
-    return '2341760034 Devin Izaz Radin Dewantoro';
+Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
+    return 'Pos ke- ' . $postId . " Komentar ke-: " . $commentId;
 });
 
-//Route::get('/user/{Devin}', function ($name){
-  //  return 'Nama Saya ' . $name;
-//});
 
-Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId){
-    return 'Pos ke- ' .$postId." Komentar ke-: ".$commentId;
-});
-
-Route::get('/articles/{id}', function ($id) {
-    return 'Halaman Artikel dengan ID ' . $id;
-});
-
-Route::get('/user/{name?}', function ($name='John') {
+Route::get('/user/{name?}', function ($name = 'John') {
     return 'Nama saya ' . $name;
 });
 
+Route::resource('photos', PhotoController::class);
