@@ -1,11 +1,11 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 {{-- Customize layout sections --}}
 
 @section('subtitle', 'Kategori')
 
 @section('content_header_title', 'Home')
-@section('content_header_subtitle', 'Kagegori')
+@section('content_header_subtitle', 'Kategori')
 
 @section('content')
     <div class="container">
