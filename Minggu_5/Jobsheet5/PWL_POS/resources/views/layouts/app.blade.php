@@ -1,59 +1,68 @@
 @extends('adminlte::page')
-{{-- Extend and customize the browser title --}} @section('title')
-{{ config('adminlte.title') }} @hasSection('subtitle') | @yield('subtitle') @endif
-@stop @vite('resources/js/app.js')
-{{-- Extend and customize the page content header --}}
+    {{-- Extend and customize the browser title --}} 
+    @section('title')
+        {{ config('adminlte.title') }} 
+        @hasSection('subtitle') | @yield('subtitle') @endif
+    @stop
 
-@section('content_header') @hasSection('content_header_title')
-<h1 class="text-muted"> @yield('content_header_title')
+    @vite('resources/js/app.js')
 
-    @hasSection('content_header_subtitle')
-    <small class="text-dark">
-        <i class="fas fa-xs fa-angle-right text-muted"></i> @yield('content_header_subtitle')
-    </small> @endif
-</h1> @endif
-@stop
+    {{-- Extend and customize the page content header --}}
 
-{{-- Rename section content to content_body --}}
+    @section('content_header') 
+        @hasSection('content_header_title')
+            <h1 class="text-muted"> 
+                @yield('content_header_title')
 
-@section('content') @yield('content_body')
-@stop
+                @hasSection('content_header_subtitle')
+                    <small class="text-dark">
+                        <i class="fas fa-xs fa-angle-right text-muted"></i> 
+                        @yield('content_header_subtitle')
+                    </small> 
+                @endif
+            </h1> 
+        @endif
+    @stop
 
-{{-- Create a common footer --}} @section('footer')
-<div class="float-right">
-    Version: {{ config('app.version', '1.0.0') }}
-</div>
+    {{-- Rename section content to content_body --}}
 
-<strong>
-    <a href="{{ config('app.company_url', '#') }}">
-        {{ config('app.company_name', 'My company') }}
-    </a>
-</strong> @stop
+    @section('content') 
+        @yield('content_body')
+    @stop
 
+    {{-- Create a common footer --}} 
+    @section('footer')
+        <div class="float-right">
+            Version: {{ config('app.version', '1.0.0') }}
+        </div>
 
-{{-- Add common Javascript/Jquery code --}}
+        <strong>
+            <a href="{{ config('app.company_url', '#') }}">
+                {{ config('app.company_name', 'My company') }}
+            </a>
+        </strong> 
+    @stop
 
+    {{-- Add common Javascript/Jquery code --}} 
+    @push('js')
+        <script src="https://cdn.datatables.net/2.0.2/js/datatables.js"></script> 
+    @endpush
+    
+    @stack('scripts')
 
-
-
-@push('js')
-<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script> @endpush
-@stack('scripts')
-
-{{-- Add common CSS customizations --}}
-
-@push('css')
-
-<link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" rel="" stylesheet />
-
-<style type="text/css">
-/*-- You can add AdminLTE customizations here /*
-/*
-.card-header {
-border-bottom: none;
-}
-.card-title {
-font-weight: 600;
-}
-*/
-</style> @endpush
+    {{-- Add common CSS customizations --}}
+    @push('css')
+        <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css"/>
+        
+        <style type="text/css">
+            /*-- You can add AdminLTE customizations here /
+            /*
+            .card-header {
+            border-bottom: none;
+            }
+            .card-title {
+            font-weight: 600;
+            }
+            */
+        </style> 
+    @endpush

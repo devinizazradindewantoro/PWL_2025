@@ -1,5 +1,3 @@
-resources > views > kategori > create.blade.php > ...
-
 @extends('layouts.app')
 
 {{-- Customize layout sections --}}

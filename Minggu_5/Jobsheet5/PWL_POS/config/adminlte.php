@@ -327,6 +327,15 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
+
+        // Tambah menu navbar kategori
+        ['header' => 'DATA MANAGEMENT'],
+        [
+            'text' => 'Manage Kategori',
+            'url'  => 'kategori',
+            'icon' => 'fas fa-list',
+        ],
+        
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
