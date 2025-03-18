@@ -24,12 +24,12 @@ class KategoriDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
                 return '
-                    <a href="' . url('/kategori/' . $row->kategori_id . '/edit') . '" class="btn btn-sm btn-success">Edit</a>
-                    <form action="' . url('/kategori/' . $row->kategori_id) . '" method="POST" style="display:inline;">
-                    ' . csrf_field() . '
-                    ' . method_field('DELETE') . '
-                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm(\'Apakah yakin ingin menghapus?\')">Delete</button>
-                ';
+                <a href="' . url('/kategori/' . $row->kategori_id . '/edit') . '" class="btn btn-sm btn-warning">Edit</a>
+                <form action="' . url('/kategori/' . $row->kategori_id) . '" method="POST" style="display:inline;">
+                ' . csrf_field() . '
+                ' . method_field('DELETE') . '
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm(\'Apakah yakin ingin menghapus?\')">Delete</button>
+            ';
             })
             ->rawColumns(['action'])
             ->setRowId('kategori_id');
@@ -73,9 +73,9 @@ class KategoriDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(100)
                 ->addClass('text-center'),
-            Column::make('kategori_id'),
+            Column::make('kategori_id')->addClass('text-start'),
             Column::make('kategori_kode'),
             Column::make('kategori_nama'),
             Column::make('created_at'),

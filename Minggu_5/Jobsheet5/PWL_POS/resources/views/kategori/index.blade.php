@@ -11,7 +11,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header">Manage Kategori 
-                <a href="/kategori/create" class="btn btn-primary float-right">+</a>
+                <a href="/kategori/create" class="btn btn-primary float-right">+ ADD</a>
             </div>
         
             <div class="card-body">
