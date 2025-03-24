@@ -7,30 +7,30 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class KategoriController extends Controller
+class BarangController extends Controller
 {
     // Menampilkan halaman awal user
     public function index()
     {
         $breadcrumb = (object) [
-            'title' => 'Kategori Barang',
+            'title' => 'Data Barang',
             'list' => ['Home', 'User']
         ];
 
         $page = (object) [
-            'title' => 'Daftar kategori barang yang terdaftar dalam sistem'
+            'title' => 'Daftar data barang yang terdaftar dalam sistem'
         ];
 
-        $activeMenu = 'kategori'; // set menu yang sedang aktif
+        $activeMenu = 'barang'; // set menu yang sedang aktif
 
-        return view('kategori.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('barang.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     // Ambil data user dalam bentuk json untuk datatables public function list(Request $request)
     public function list(Request $request)
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
-            ->with('kategori');
+            ->with('barang');
 
         // filter data user berdasarkan level_id
         if ($request->level_id) {
@@ -66,9 +66,9 @@ class KategoriController extends Controller
         ];
 
         $level = LevelModel::all();
-        $activeMenu = 'kategori'; // set menu yang sedang aktif
+        $activeMenu = 'barang'; // set menu yang sedang aktif
 
-        return view('kategori.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
+        return view('barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
     // Menyimpan data user baru
@@ -89,7 +89,7 @@ class KategoriController extends Controller
             'level_id' => $request->level_id
         ]);
 
-        return redirect('/kategori')->with('success', 'Data user berhasil disimpan');
+        return redirect('/barang')->with('success', 'Data user berhasil disimpan');
     }
 
 
@@ -110,7 +110,7 @@ class KategoriController extends Controller
 
         $activeMenu = 'user'; // set menu yang sedang aktif
 
-        return view('kategori.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+        return view('barang.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
     // Menampilkan halaman form edit user
@@ -131,7 +131,7 @@ class KategoriController extends Controller
 
         $activeMenu = 'user'; // set menu yang sedang aktif
 
-        return view('kategori.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
+        return view('barang.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
 

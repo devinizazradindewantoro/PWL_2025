@@ -7,21 +7,21 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class KategoriController extends Controller
+class StokController extends Controller
 {
     // Menampilkan halaman awal user
     public function index()
     {
         $breadcrumb = (object) [
-            'title' => 'Kategori Barang',
+            'title' => 'Stok Barang',
             'list' => ['Home', 'User']
         ];
 
         $page = (object) [
-            'title' => 'Daftar kategori barang yang terdaftar dalam sistem'
+            'title' => 'Daftar stok barang yang terdaftar dalam sistem'
         ];
 
-        $activeMenu = 'kategori'; // set menu yang sedang aktif
+        $activeMenu = 'stok'; // set menu yang sedang aktif
 
         return view('kategori.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
@@ -66,9 +66,9 @@ class KategoriController extends Controller
         ];
 
         $level = LevelModel::all();
-        $activeMenu = 'kategori'; // set menu yang sedang aktif
+        $activeMenu = 'stok'; // set menu yang sedang aktif
 
-        return view('kategori.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
+        return view('stok.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
     // Menyimpan data user baru
@@ -89,7 +89,7 @@ class KategoriController extends Controller
             'level_id' => $request->level_id
         ]);
 
-        return redirect('/kategori')->with('success', 'Data user berhasil disimpan');
+        return redirect('/stok')->with('success', 'Data user berhasil disimpan');
     }
 
 
@@ -110,7 +110,7 @@ class KategoriController extends Controller
 
         $activeMenu = 'user'; // set menu yang sedang aktif
 
-        return view('kategori.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+        return view('stok.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
     // Menampilkan halaman form edit user
@@ -131,7 +131,7 @@ class KategoriController extends Controller
 
         $activeMenu = 'user'; // set menu yang sedang aktif
 
-        return view('kategori.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
+        return view('stok.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
 
