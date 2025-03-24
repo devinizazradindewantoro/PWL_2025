@@ -12,11 +12,9 @@
         @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-
         @if (session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
-
         <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
             <thead>
                 <tr>
@@ -44,22 +42,24 @@
                 "type": "POST"
             },
             columns: [{
-                // nomor urut dari laravel datatable addIndexColumn() data: "DT_RowIndex",
+                // nomor urut dari laravel datatable addIndexColumn() 
+                data: "DT_RowIndex",
                 className: "text-center",
                 orderable: false,
                 searchable: false
             }, {
                 data: "username",
                 className: "",
-                // orderable: true, jika ingin kolom ini bisa diurutkan orderable: true,
-                // searchable: true, jika ingin kolom ini bisa dicari searchable: true
+                orderable: true,  // jika ingin kolom ini bisa diurutkan orderable: true,
+                searchable: true  // searchable: true, jika ingin kolom ini bisa dicari
             }, {
                 data: "nama",
                 className: "",
                 orderable: true,
                 searchable: true
             }, {
-                // mengambil data level hasil dari ORM berelasi data: "level.level_nama",
+                // mengambil data level hasil dari ORM berelasi 
+                data: "level.level_nama",
                 className: "",
                 orderable: false,
                 searchable: false
