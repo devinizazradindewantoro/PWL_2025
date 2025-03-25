@@ -81,12 +81,12 @@ Route::group(['prefix' => 'barang'], function () {
 });
 
 Route::group(['prefix' => 'stok'], function () {
-    Route::get('/', [StokController::class, 'index']);              // menampilkan halaman awal supplier
-    Route::post('/list', [StokController::class, 'list']);  // menampilkan data supplier dalam bentuk json untuk datatables
-    Route::get('/create', [StokController::class, 'create']);       // menampilkan halaman form tambah supplier
-    Route::post('/', [StokController::class, 'store']);             // menyimpan data supplier baru
-    Route::get('/{id}', [StokController::class, 'show']);           // menampilkan detail supplier
-    Route::get('/{id}/edit', [StokController::class, 'edit']);      // menampilkan halaman form edit supplier
-    Route::put('/{id}', [StokController::class, 'update']);         // menyimpan perubahan data supplier
-    Route::delete('/{id}', [StokController::class, 'destroy']);     // menghapus data supplier
+    Route::get('/', [StokController::class, 'index']);              // menampilkan halaman awal stok
+    Route::post('/list', [StokController::class, 'list']);          // menampilkan data stok dalam bentuk json untuk datatables
+    Route::get('/create', [StokController::class, 'create']);       // menampilkan halaman form tambah stok
+    Route::post('/', [StokController::class, 'store']);             // menyimpan data stok baru
+    Route::get('/{id}', [StokController::class, 'show']);           // menampilkan detail stok
+    Route::get('/{id}/edit', [StokController::class, 'edit']);      // menampilkan halaman form edit stok
+    Route::put('/{id}', [StokController::class, 'update']);         // menyimpan perubahan data stok
+    Route::delete('/{id}', [StokController::class, 'destroy']);     // menghapus data stok
 });

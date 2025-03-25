@@ -130,4 +130,5 @@ danger"></small>
             }
         });
     });
-</script> @endempty
+</script>
+@endempty
