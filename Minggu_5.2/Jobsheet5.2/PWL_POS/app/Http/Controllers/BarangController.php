@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BarangModel;
-use App\Models\LevelModel;
-use App\Models\UserModel;
 use Illuminate\Http\Request;
+use App\Models\BarangModel;
+use App\Models\KategoriModel;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangController extends Controller
@@ -23,20 +22,20 @@ class BarangController extends Controller
         ];
 
         $activeMenu = 'barang'; // set menu yang sedang aktif
+        $kategori = KategoriModel::all();
 
-        $barang = BarangModel::all();
-        return view('barang.index', ['breadcrumb' => $breadcrumb, 'barang' => $barang, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('barang.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
     }
 
     // Ambil data user dalam bentuk json untuk datatables public function list(Request $request)
     public function list(Request $request)
     {
-        $barang = UserModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
-            ->with('barang');
+        $barang = BarangModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+            ->with('kategori');
 
         // filter data user berdasarkan barang_id
-        if ($request->barang_id) {
-            $barang->where('level_id', $request->level_id);
+        if ($request->kategori_id) {
+            $barang->where('kategori_id', $request->kategori_id);
         };
 
 
@@ -44,9 +43,9 @@ class BarangController extends Controller
             // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
             ->addIndexColumn()
             ->addColumn('aksi', function ($barang) { // menambahkan kolom aksi
-                $btn = '<a href="' . url('/user/' . $barang->barang_id) . '" class="btn btn-success sm">Detail</a> ';
-                $btn .= '<a href="' . url('/user/' . $barang->barang_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
-                $btn .= '<form class="d-inline-block" method="POST" action="' . url('/user/' . $barang->barang_id) . '">'
+                $btn = '<a href="' . url('/barang/' . $barang->barang_id) . '" class="btn btn-success sm">Detail</a> ';
+                $btn .= '<a href="' . url('/barang/' . $barang->barang_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+                $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang/' . $barang->barang_id) . '">'
                     . csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';
                 return $btn;
@@ -67,27 +66,29 @@ class BarangController extends Controller
             'title' => 'Tambah barang baru'
         ];
 
-        $barang = BarangModel::all();
+        $kategori = KategoriModel::all();
         $activeMenu = 'barang'; // set menu yang sedang aktif
 
-        return view('barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'activeMenu' => $activeMenu]);
+        return view('barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
     }
 
     // Menyimpan data barang baru
     public function store(Request $request, string $id)
     {
         $request->validate([
-            'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode' . $id . ',barang_id',
+            'kategori_id' => 'required|integer',
+            'barang_kode' => 'required|string|unique:m_barang,barang_kode',
             'barang_nama' => 'required|string|max:100',
-            'harga_beli' => 'required|float',
-            'harga_jual' => 'required|float'  
+            'harga_beli' => 'required|numeric|min:0',
+            'harga_jual' => 'required|numeric|min:0',
         ]);
 
         BarangModel::create([
+            'kategori_id' => $request->kategori_id,
             'barang_kode' => $request->barang_kode,
             'barang_nama' => $request->barang_nama,
             'harga_beli' => $request->harga_beli,
-            'harga_jual' => $request->harga_jual
+            'harga_jual' => $request->harga_jual,
         ]);
 
         return redirect('/barang')->with('success', 'Data barang berhasil disimpan');
@@ -98,7 +99,7 @@ class BarangController extends Controller
 
     public function show(string $id)
     {
-        $barang = BarangModel::with('level')->find($id);
+        $barang = BarangModel::with('kategori')->find($id);
 
         $breadcrumb = (object) [
             'title' => 'Detail Barang',
@@ -118,8 +119,7 @@ class BarangController extends Controller
 
     public function edit(string $id)
     {
-        $user = UserModel::find($id);
-        $barang = BarangModel::all();
+        $barang = BarangModel::find($id);
 
         $breadcrumb = (object) [
             'title' => 'Edit Barang',
@@ -130,9 +130,10 @@ class BarangController extends Controller
             'title' => 'Edit Barang'
         ];
 
+        $kategori = KategoriModel::all();
         $activeMenu = 'barang'; // set menu yang sedang aktif
 
-        return view('barang.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'barang' => $barang, 'activeMenu' => $activeMenu]);
+        return view('barang.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
     }
 
 
@@ -141,17 +142,19 @@ class BarangController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode' . $id . ',barang_id',
+            'kategori_id' => 'required|integer',
+            'barang_kode' => 'required|string|unique:m_barang,barang_kode,'.$id.',barang_id',
             'barang_nama' => 'required|string|max:100',
-            'harga_beli' => 'required|float',
-            'harga_jual' => 'required|float'  
+            'harga_beli' => 'required|numeric|min:0',
+            'harga_jual' => 'required|numeric|min:0',
         ]);
 
-        BarangModel::create([
+        BarangModel::find($id)->update([
+            'kategori_id' => $request->kategori_id,
             'barang_kode' => $request->barang_kode,
             'barang_nama' => $request->barang_nama,
             'harga_beli' => $request->harga_beli,
-            'harga_jual' => $request->harga_jual
+            'harga_jual' => $request->harga_jual,
         ]);
 
         return redirect('/barang')->with('success', 'Data barang berhasil diubah');

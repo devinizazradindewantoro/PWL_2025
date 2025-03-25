@@ -13,25 +13,14 @@
         <table class="table table-bordered table-striped table-hover table-sm">
             <tr>
                 <th>ID</th>
-                <td>{{ $user->user_id }}</td>
+                <td>{{ $kategori->kategori_id }}</td>
             </tr>
             <tr>
                 <th>Level</th>
-                <td>{{ $user->level->level_nama }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ $user->username }}</td>
-            </tr>
-            <tr>
-                <th>Nama</th>
-                <td>{{ $user->nama }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>********</td>
-            </tr>
-        </table> @endempty
+                <td>{{ $kategori->kategori_nama }}</td>
+            </tr>   
+        </table> 
+        @endempty
         <a href="{{ url('kategori') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
     </div>
 </div> 

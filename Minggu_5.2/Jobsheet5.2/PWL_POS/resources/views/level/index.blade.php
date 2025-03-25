@@ -34,8 +34,6 @@
 <script>
     $(document).ready(function() {
         var dataLevel = $('#table_level').DataTable({
-            // jika ingin menggunakan server side processing
-            processing: true,
             serverSide: true,
             ajax: {
                 "url": "{{ url('level/list') }}",
