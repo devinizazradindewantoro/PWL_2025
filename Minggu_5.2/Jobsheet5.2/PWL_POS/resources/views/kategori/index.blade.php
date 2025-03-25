@@ -5,7 +5,7 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <a class="btn btn-sm btn-primary mt-1" href="{{ url('user/create') }}">Tambah</a>
+            <a class="btn btn-sm btn-primary mt-1" href="{{ url('kategori/create') }}">Tambah</a>
         </div>
     </div>
     <div class="card-body">
@@ -15,13 +15,12 @@
         @if (session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
-        <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_kategori">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Nama</th>
-                    <th>Level Pengguna</th>
+                    <th>No</th>
+                    <th>Kode Kategori</th>
+                    <th>Nama Kategori</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -34,14 +33,16 @@
 @push('js')
 <script>
     $(document).ready(function() {
-        var dataUser = $('#table_user').DataTable({
-            // serverSide: true, jika ingin menggunakan server side processing serverSide: true,
+        var dataKategori = $('#table_kategori').DataTable({
+            // jika ingin menggunakan server side processing serverSide: true,
+            processing: true,
+            serverSide: true,
             ajax: {
-                "url": "{{ url('user/list') }}",
+                "url": "{{ url('kategori/list') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": function (d) {
-                    d.level_id = $('#level_id').val();
+                    d.kategori_id = $('#kategori_id').val();
                 }
             },
             columns: [{
@@ -51,21 +52,15 @@
                 orderable: false,
                 searchable: false
             }, {
-                data: "username",
+                data: "kategori_kode",
                 className: "",
                 orderable: true, // jika ingin kolom ini bisa diurutkan orderable: true,
                 searchable: true // searchable: true, jika ingin kolom ini bisa dicari
             }, {
-                data: "nama",
+                data: "kategori_nama",
                 className: "",
                 orderable: true,
                 searchable: true
-            }, {
-                // mengambil data level hasil dari ORM berelasi 
-                data: "level.level_nama",
-                className: "",
-                orderable: false,
-                searchable: false
             }, {
                 data: "aksi",
                 className: "",
@@ -74,8 +69,9 @@
             }]
         });
 
-        $('#level_id').on('change', function() {
+        $('#kategori_id').on('change', function() {
            dataUser.ajax.reload(); 
         })
     });
-</script> @endpush
+</script> 
+@endpush

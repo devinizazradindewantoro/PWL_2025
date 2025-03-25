@@ -14,7 +14,7 @@
                 </div>
                 <a href="{{ url('user') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('/user/'.$user->user_id) }}" class="form-horizontal">
+                <form method="POST" action="{{ url('/kategori/'.$kategori->kategori_id) }}" class="form-horizontal">
                     @csrf
                     {!! method_field('PUT') !!} <!-- Tambahkan baris ini untuk proses edit yang butuh method PUT -->
                     
@@ -38,7 +38,7 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Username</label>
                         <div class="col-11">
-                            <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $user->username) }}" required>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $kategori->username) }}" required>
                             @error('username')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -48,7 +48,7 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Nama</label>
                         <div class="col-11">
-                            <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $user->nama) }}" required>
+                            <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $kategori->nama) }}" required>
                             @error('nama')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -71,7 +71,7 @@
                         <label class="col-1 control-label col-form-label"></label>
                         <div class="col-11">
                             <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                            <a class="btn btn-sm btn-default ml-1" href="{{ url('user') }}">Kembali</a>
+                            <a class="btn btn-sm btn-default ml-1" href="{{ url('kategori') }}">Kembali</a>
                         </div>
                     </div>
                 </form>

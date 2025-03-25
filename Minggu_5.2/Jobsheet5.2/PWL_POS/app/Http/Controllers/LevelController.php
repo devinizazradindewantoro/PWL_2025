@@ -14,7 +14,7 @@ class LevelController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Level User',
-            'list' => ['Home', 'User']
+            'list' => ['Home', 'Level User']
         ];
 
         $page = (object) [
@@ -22,9 +22,8 @@ class LevelController extends Controller
         ];
 
         $activeMenu = 'level'; // set menu yang sedang aktif
-        $level = LevelModel::all();
 
-        return view('level.index', ['breadcrumb' => $breadcrumb, 'level' => $level, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     // Ambil data user dalam bentuk json untuk datatables public function list(Request $request)
@@ -58,7 +57,7 @@ class LevelController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Tambah Level User',
-            'list' => ['Home', 'User', 'Tambah']
+            'list' => ['Home', 'Level', 'Tambah']
         ];
 
         $page = (object) [
@@ -85,7 +84,7 @@ class LevelController extends Controller
                 'level_name' => $request->level_name
             ]);
 
-            return redirect('/level')->with('success', 'Data Level berhasil ditambahkan');
+            return redirect('/level')->with('success', 'Data Level berhasil disimpan');
     }
 
 
@@ -93,11 +92,11 @@ class LevelController extends Controller
 
     public function show(string $id)
     {
-        $level = LevelModel::with('level')->find($id);
+        $level = LevelModel::find($id);
 
         $breadcrumb = (object) [
             'title' => 'Detail Level',
-            'list' => ['Home', 'User', 'Detail']
+            'list' => ['Home', 'Level', 'Detail']
         ];
 
         $page = (object) [
@@ -117,12 +116,12 @@ class LevelController extends Controller
         $level = LevelModel::all();
 
         $breadcrumb = (object) [
-            'title' => 'Edit User',
-            'list' => ['Home', 'User', 'Edit']
+            'title' => 'Edit Level',
+            'list' => ['Home', 'Level', 'Edit']
         ];
 
         $page = (object) [
-            'title' => 'Edit user'
+            'title' => 'Edit level'
         ];
 
         $activeMenu = 'level'; // set menu yang sedang aktif

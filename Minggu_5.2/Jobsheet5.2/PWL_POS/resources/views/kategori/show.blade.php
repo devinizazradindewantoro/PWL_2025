@@ -6,7 +6,7 @@
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools"></div>
     </div>
-    <div class="card-body"> @empty($user)
+    <div class="card-body"> @empty($kategori)
         <div class="alert alert-danger alert-dismissible">
             <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5> Data yang Anda cari tidak ditemukan.
         </div> @else
@@ -32,7 +32,7 @@
                 <td>********</td>
             </tr>
         </table> @endempty
-        <a href="{{ url('user') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+        <a href="{{ url('kategori') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
     </div>
 </div> 
 @endsection
