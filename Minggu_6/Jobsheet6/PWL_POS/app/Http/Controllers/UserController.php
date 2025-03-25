@@ -273,7 +273,7 @@ class UserController extends Controller
             ]);
         }
     }
-    
+    return redirect('/');
 }
 
     // Menghapus data user
