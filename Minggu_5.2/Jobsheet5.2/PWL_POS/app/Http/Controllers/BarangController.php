@@ -10,7 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BarangController extends Controller
 {
-    // Menampilkan halaman awal user
+    // Menampilkan halaman data barang
     public function index()
     {
         $breadcrumb = (object) [
@@ -24,7 +24,8 @@ class BarangController extends Controller
 
         $activeMenu = 'barang'; // set menu yang sedang aktif
 
-        return view('barang.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        $barang = BarangModel::all();
+        return view('barang.index', ['breadcrumb' => $breadcrumb, 'barang' => $barang, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     // Ambil data user dalam bentuk json untuk datatables public function list(Request $request)
@@ -33,7 +34,7 @@ class BarangController extends Controller
         $barang = UserModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
             ->with('barang');
 
-        // filter data user berdasarkan level_id
+        // filter data user berdasarkan barang_id
         if ($request->barang_id) {
             $barang->where('level_id', $request->level_id);
         };
@@ -54,7 +55,7 @@ class BarangController extends Controller
             ->make(true);
     }
 
-    // Menampilkan halaman form tambah user
+    // Menampilkan halaman form tambah data barang
     public function create()
     {
         $breadcrumb = (object) [
@@ -72,15 +73,14 @@ class BarangController extends Controller
         return view('barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'activeMenu' => $activeMenu]);
     }
 
-    // Menyimpan data user baru
+    // Menyimpan data barang baru
     public function store(Request $request, string $id)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
             'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode' . $id . ',barang_id',
-            'barang_nama' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
-            'harga_beli' => 'required|float', // password harus diisi dan minimal 5 karakter
-            'harga_jual' => 'required|float'  // level_id harus diisi dan berupa angka
+            'barang_nama' => 'required|string|max:100',
+            'harga_beli' => 'required|float',
+            'harga_jual' => 'required|float'  
         ]);
 
         BarangModel::create([
@@ -94,7 +94,7 @@ class BarangController extends Controller
     }
 
 
-    // Menampilkan detail user
+    // Menampilkan detail barang
 
     public function show(string $id)
     {
@@ -114,7 +114,7 @@ class BarangController extends Controller
         return view('barang.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'activeMenu' => $activeMenu]);
     }
 
-    // Menampilkan halaman form edit user
+    // Menampilkan halaman form edit data barang
 
     public function edit(string $id)
     {
@@ -136,17 +136,15 @@ class BarangController extends Controller
     }
 
 
-    // Menyimpan perubahan data user
+    // Menyimpan perubahan data barang
 
     public function update(Request $request, string $id)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter,
-            // dan bernilai unik di tabel m_user kolom username kecuali untuk user dengan id yang sedang diedit
             'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode' . $id . ',barang_id',
-            'barang_nama' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
-            'harga_beli' => 'required|float', // password harus diisi dan minimal 5 karakter
-            'harga_jual' => 'required|float'  // level_id harus diisi dan berupa angka
+            'barang_nama' => 'required|string|max:100',
+            'harga_beli' => 'required|float',
+            'harga_jual' => 'required|float'  
         ]);
 
         BarangModel::create([
@@ -159,16 +157,16 @@ class BarangController extends Controller
         return redirect('/barang')->with('success', 'Data barang berhasil diubah');
     }
 
-     // Menghapus data user
+     // Menghapus data barang
      public function destroy(string $id)
      {
          $check = BarangModel::find($id);
-         if (!$check) { // untuk mengecek apakah data user dengan id yang dimaksud ada atau tidak
+         if (!$check) { // untuk mengecek apakah data barang dengan id yang dimaksud ada atau tidak
              return redirect('/barang')->with('error', 'Data user tidak ditemukan');
          }
  
          try {
-             BarangModel::destroy($id); // Hapus data level
+             BarangModel::destroy($id); // Hapus data barang
              return redirect('/barang')->with('success', 'Data user berhasil dihapus');
          } catch (\Illuminate\Database\QueryException $e) {
 

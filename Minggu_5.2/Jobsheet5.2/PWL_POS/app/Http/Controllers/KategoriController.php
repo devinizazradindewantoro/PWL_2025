@@ -9,7 +9,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
 {
-    // Menampilkan halaman awal user
+    // Menampilkan halaman awal kategori barang
     public function index()
     {
         $breadcrumb = (object) [
@@ -31,7 +31,7 @@ class KategoriController extends Controller
     {
         $kategori = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama');
 
-        // filter data user berdasarkan level_id
+        // filter data user berdasarkan kategori_id
         if ($request->kategori_id) {
             $kategori->where('kategori_id', $request->kategori_id);
         };
@@ -52,7 +52,7 @@ class KategoriController extends Controller
             ->make(true);
     }
 
-    // Menampilkan halaman form tambah user
+    // Menampilkan halaman form tambah kategori barang
     public function create()
     {
         $breadcrumb = (object) [
@@ -70,13 +70,12 @@ class KategoriController extends Controller
         return view('kategori.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
     }
 
-    // Menyimpan data user baru
+    // Menyimpan data kategori barang baru
     public function store(Request $request)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
-            'kategori_kode' => 'required|string|min:3|unique:m_kategori,username',
-            'kategori_nama' => 'required|string|max:100'         // nama harus diisi, berupa string, dan maksimal 100 karakter
+            'kategori_kode' => 'required|string|min:3|unique:m_kategori',
+            'kategori_nama' => 'required|string|max:100'         
         ]);
 
         KategoriModel::create([
@@ -88,8 +87,7 @@ class KategoriController extends Controller
     }
 
 
-    // Menampilkan detail user
-
+    // Menampilkan detail kategori barang
     public function show(string $id)
     {
         $kategori = KategoriModel::find($id);
@@ -108,8 +106,7 @@ class KategoriController extends Controller
         return view('kategori.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
     }
 
-    // Menampilkan halaman form edit user
-
+    // Menampilkan halaman form edit kategori barang
     public function edit(string $id)
     {
         $kategori = UserModel::find($id);
@@ -130,19 +127,18 @@ class KategoriController extends Controller
     }
 
 
-    // Menyimpan perubahan data user
+    // Menyimpan perubahan data kategori barang
 
     public function update(Request $request, string $id)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter,
-            // dan bernilai unik di tabel m_user kolom username kecuali untuk user dengan id yang sedang diedit
             'kategori_kode' => 'required|string|unique:m_kategori,kategori_kode,' . $id . ',kategori_id',
-            'kategori_nama' => 'required|string|max:100' // nama harus diisi, berupa string, dan maksimal 100 karakter
+            'kategori_nama' => 'required|string|max:100'
         ]);
 
         $kategori = KategoriModel::find($id);
         $kategori->update([
+
             'kategori_kode' => $request->kategori_id,
             'kategori_nama' => $request->kategori_kode
         ]);
@@ -150,16 +146,16 @@ class KategoriController extends Controller
         return redirect('/kategori')->with('success', 'Data kategori berhasil diubah');
     }
 
-     // Menghapus data user
+     // Menghapus data kategori barang
      public function destroy(string $id)
      {
          $kategori = KategoriModel::find($id);
-         if (!$kategori) { // untuk mengecek apakah data user dengan id yang dimaksud ada atau tidak
+         if (!$kategori) { // untuk mengecek apakah data kategori dengan id yang dimaksud ada atau tidak
              return redirect('/kategori')->with('error', 'Data kategori tidak ditemukan');
          }
  
          try {
-             KategoriModel::destroy($id); // Hapus data level
+             KategoriModel::destroy($id); // Hapus data kategori
              return redirect('/kategori')->with('success', 'Data kategori berhasil dihapus');
          } catch (\Illuminate\Database\QueryException $e) {
 

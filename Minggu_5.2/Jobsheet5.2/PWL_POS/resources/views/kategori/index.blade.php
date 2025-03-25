@@ -34,7 +34,7 @@
 <script>
     $(document).ready(function() {
         var dataKategori = $('#table_kategori').DataTable({
-            // jika ingin menggunakan server side processing serverSide: true,
+            // jika ingin menggunakan server side processing serverSide: true
             processing: true,
             serverSide: true,
             ajax: {

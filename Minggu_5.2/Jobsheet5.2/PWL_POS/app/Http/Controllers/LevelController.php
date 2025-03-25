@@ -9,7 +9,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LevelController extends Controller
 {
-    // Menampilkan halaman awal user
+    // Menampilkan halaman awal level user
     public function index()
     {
         $breadcrumb = (object) [
@@ -26,7 +26,7 @@ class LevelController extends Controller
         return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
-    // Ambil data user dalam bentuk json untuk datatables public function list(Request $request)
+    // Ambil data level user dalam bentuk json untuk datatables public function list(Request $request)
     public function list(Request $request)
     {
         $level = LevelModel::select('level_id', 'level_kode', 'level_nama');
@@ -52,7 +52,7 @@ class LevelController extends Controller
             ->make(true);
     }
 
-    // Menampilkan halaman form tambah user
+    // Menampilkan halaman form tambah level user
     public function create()
     {
         $breadcrumb = (object) [
@@ -70,13 +70,13 @@ class LevelController extends Controller
         return view('level.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
-    // Menyimpan data user baru
+    // Menyimpan data level user baru
     public function store(Request $request)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
+            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_level kolom level_kode dan level_nama
                 'level_kode' => 'required|string|unique:m_level,level_kode',
-                'level_name' => 'required|string'
+                'level_nama' => 'required|string'
             ]);
     
             LevelModel::create([
@@ -88,7 +88,7 @@ class LevelController extends Controller
     }
 
 
-    // Menampilkan detail user
+    // Menampilkan detail level user
 
     public function show(string $id)
     {
@@ -108,7 +108,7 @@ class LevelController extends Controller
         return view('level.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
-    // Menampilkan halaman form edit user
+    // Menampilkan halaman form edit level user
 
     public function edit(string $id)
     {
@@ -130,19 +130,18 @@ class LevelController extends Controller
     }
 
 
-    // Menyimpan perubahan data user
+    // Menyimpan perubahan data level user
 
     public function update(Request $request, string $id)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter,
-            // dan bernilai unik di tabel m_user kolom username kecuali untuk user dengan id yang sedang diedit
             'level_kode' => 'required|string|unique:m_level,level_kode,' . $id . ',level_id',
             'level_name' => 'required|string'
         ]);
 
         $level = LevelModel::findOrFail($id);
         $level->update([
+
             'level_kode' => $request->level_kode,
             'level_name' => $request->level_name
         ]);
@@ -150,16 +149,16 @@ class LevelController extends Controller
         return redirect('/level')->with('success', 'Data Level berhasil diperbarui');
     }
 
-     // Menghapus data user
+     // Menghapus data level user
      public function destroy(string $id)
      {
          $level = LevelModel::find($id);
-         if (!$level) { // untuk mengecek apakah data user dengan id yang dimaksud ada atau tidak
+         if (!$level) { // untuk mengecek apakah data level user dengan id yang dimaksud ada atau tidak
              return redirect('/level')->with('error', 'Data level tidak ditemukan');
          }
  
          try {
-             LevelModel::destroy($id); // Hapus data level
+             LevelModel::destroy($id); // Hapus data level user
              return redirect('/level')->with('success', 'Data user berhasil dihapus');
          } catch (\Illuminate\Database\QueryException $e) {
 

@@ -8,7 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class StokController extends Controller
 {
-    // Menampilkan halaman awal user
+    // Menampilkan halaman awal stok
     public function index()
     {
         $breadcrumb = (object) [
@@ -22,7 +22,8 @@ class StokController extends Controller
 
         $activeMenu = 'stok'; // set menu yang sedang aktif
 
-        return view('stok.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        $stok = StokModel::all();
+        return view('stok.index', ['breadcrumb' => $breadcrumb, 'stok' => $stok, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     // Ambil data user dalam bentuk json untuk datatables public function list(Request $request)
@@ -32,7 +33,7 @@ class StokController extends Controller
             ->with('barang')
             ->with('user');
 
-        // filter data user berdasarkan level_id
+        // filter data user berdasarkan stok_id
         if ($request->stok_id) {
             $stok->where('stok_id', $request->stok_id);
         };
@@ -53,7 +54,7 @@ class StokController extends Controller
             ->make(true);
     }
 
-    // Menampilkan halaman form tambah user
+    // Menampilkan halaman form tambah stok
     public function create()
     {
         $breadcrumb = (object) [
@@ -71,13 +72,12 @@ class StokController extends Controller
         return view('stok.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'stok' => $stok, 'activeMenu' => $activeMenu]);
     }
 
-    // Menyimpan data user baru
+    // Menyimpan data stok baru
     public function store(Request $request)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
             'stok_tanggal' => 'required|string|min:3|unique:t_stok,stok_tanggal',
-            'stok_jumlah' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
+            'stok_jumlah' => 'required|string|max:100',
         ]);
 
         StokModel::create([
@@ -89,7 +89,7 @@ class StokController extends Controller
     }
 
 
-    // Menampilkan detail user
+    // Menampilkan detail stok
 
     public function show(string $id)
     {
@@ -109,7 +109,7 @@ class StokController extends Controller
         return view('stok.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
-    // Menampilkan halaman form edit user
+    // Menampilkan halaman form edit stok
 
     public function edit(string $id)
     {
@@ -117,29 +117,27 @@ class StokController extends Controller
         $stok = StokModel::all();
 
         $breadcrumb = (object) [
-            'title' => 'Edit User',
-            'list' => ['Home', 'User', 'Edit']
+            'title' => 'Edit Stok',
+            'list' => ['Home', 'Stok', 'Edit']
         ];
 
         $page = (object) [
-            'title' => 'Edit user'
+            'title' => 'Edit stok'
         ];
 
-        $activeMenu = 'user'; // set menu yang sedang aktif
+        $activeMenu = 'stok'; // set menu yang sedang aktif
 
-        return view('stok.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'stok' => $stok, 'activeMenu' => $activeMenu]);
+        return view('stok.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'stok' => $stok, 'activeMenu' => $activeMenu]);
     }
 
 
-    // Menyimpan perubahan data user
+    // Menyimpan perubahan data stok
 
     public function update(Request $request, string $id)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter,
-            // dan bernilai unik di tabel m_user kolom username kecuali untuk user dengan id yang sedang diedit
-             'stok_tanggal' => 'required|string|min:3|unique:t_stok,stok_tanggal',
-            'stok_jumlah' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
+            'stok_tanggal' => 'required|string|min:3|unique:t_stok,stok_tanggal',
+            'stok_jumlah' => 'required|string|max:100',
         ]);
 
         StokModel::create([
@@ -154,12 +152,12 @@ class StokController extends Controller
      public function destroy(string $id)
      {
          $check = StokModel::find($id);
-         if (!$check) { // untuk mengecek apakah data user dengan id yang dimaksud ada atau tidak
+         if (!$check) { // untuk mengecek apakah data stok dengan id yang dimaksud ada atau tidak
              return redirect('/stok')->with('error', 'Data user tidak ditemukan');
          }
  
          try {
-             StokModel::destroy($id); // Hapus data level
+             StokModel::destroy($id); // Hapus data stok
              return redirect('/stok')->with('success', 'Data user berhasil dihapus');
          } catch (\Illuminate\Database\QueryException $e) {
 
