@@ -12,17 +12,25 @@ class UserModel extends Model
 
     protected $table = 'm_user';       // Mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; // Mendefinisikan primary key dari tabel yang digunakan
+    protected $fillable = ['level_id', 'username', 'nama', 'password'];
 
+    protected $hidden = ['password']; // jangan di tampilkan saat select
+
+    protected $casts = ['password' => 'hashed']; // casting password agar otomatis di hash
+
+
+    /**
+     * Relasi ke tabel level
+     */
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    }
+    
     /**
      * The attributes that are mass assignable.
      * 
      * @var array
      */
-    protected $fillable = ['level_id', 'username', 'nama', 'password'];
-
-    public function level(): BelongsTo
-    {
-        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
-    }
 
 }
