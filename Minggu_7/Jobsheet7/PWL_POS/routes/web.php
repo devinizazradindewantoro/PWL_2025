@@ -132,7 +132,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
 
     // masukkan semua route yang perlu autentikasi di sini
     Route::group(['prefix' => 'user'], function () {
-        Route::middleware(['authorize:ADM'])->group(function () {
+        Route::middleware(['authorize:ADM,MNG'])->group(function () {
             Route::get('/', [UserController::class, 'index']);                              // menampilkan halaman awal user
             Route::post('/list', [UserController::class, 'list']);                          // menampilkan data user dalam bentuk json untuk datatables
             Route::get('/create', [UserController::class, 'create']);                       // menampilkan halaman form tambah user
@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     });
 
     Route::group(['prefix' => 'level'], function () {
-        Route::middleware(['authorize:ADM'])->group(function () {
+        Route::middleware(['authorize:ADM,MNG'])->group(function () {
             Route::get('/', [LevelController::class, 'index']);                             // Menampilkan halaman awal level user
             Route::post('/list', [LevelController::class, 'list']);                         // menampilkan level user dalam bentuk json untuk datatables
             Route::get('/create', [LevelController::class, 'create']);                      // menampilkan halaman form tambah level user
