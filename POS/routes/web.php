@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 
 //Home
 Route::get('/', [HomeController::class, 'index']);
@@ -22,3 +23,5 @@ Route::get('/user/{id}/name/{name}', [UserController::class, 'showProfile'])->na
 
 //Sales
 Route::get('/sales', [SalesController::class, 'index'])->name('sales');
+
+Route::get('/', [WelcomeController::class, 'index']);
