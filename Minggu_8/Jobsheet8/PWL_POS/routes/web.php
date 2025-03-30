@@ -205,7 +205,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax']);              // Menampilkan halaman form edit user Ajax          
             Route::put('/{id}/update_ajax', [BarangController::class, 'update_ajax']);          // Menyimpan perubahan data user Ajax     
             Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']);         // Untuk tampilkan form confirm delete user Ajax      
-            Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);       // Untuk hapus data user Ajax   
+            Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);       // Untuk hapus data user Ajax  
+            Route::get('/import', [BarangController::class, 'import']);                  // ajax form upload excel
+            Route::post('/import_ajax', [BarangController::class, 'import_ajax']);       // ajax import excel
             Route::delete('/{id}', [BarangController::class, 'destroy']);                       // menghapus data barang
         });
     });
