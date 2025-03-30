@@ -43,7 +43,8 @@ danger"></small>
                 $.ajax({
                     url: form.action,
                     type: form.method,
-                    data: formData, // Data yang dikirim berupa FormData processData: false, // setting processData dan contentType ke false, untuk menghandle file
+                    data: formData, // Data yang dikirim berupa FormData // setting processData dan contentType ke false, untuk menghandle file
+                    processData: false, 
                     contentType: false,
                     success: function(response) {
                         if (response.status) { // jika sukses
