@@ -5,8 +5,10 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('stok/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('/stok/create_ajax/') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+            <button onclick="modalAction('{{ url('/stok/import') }}')" class="btn btn-info">Import Barang</button>
+                <a href="{{ url('/stok/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Barang</a>
+                <a href="{{ url('/stok/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export Barang</a>
+                <button onclick="modalAction('{{ url('/stok/create_ajax/') }}')" class="btn btn-success">Tambah Data (Ajax)</button>
             </div>
         </div>
         <div class="card-body">
@@ -18,8 +20,8 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Filter:</label>
+                <div class="form-group form-group-sm row text-sm mb-0">
+                    <label for="filter_date" class="col-md-1 col-form-label">Filter</label>
                         <div class="col-3">
                             <select class="form-control" id="user_id" name="user_id">
                                 <option value="">- Semua</option>

@@ -7,7 +7,9 @@ use App\Models\StokModel;
 use App\Models\BarangModel;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StokController extends Controller
 {
@@ -18,14 +20,14 @@ class StokController extends Controller
             'title' => 'Daftar Stok',
             'list' => ['Home', 'Stok']
         ];
-    
+
         $page = (object)[
             'title' => 'Daftar stok yang terdaftar dalam sistem'
         ];
-    
+
         $activeMenu = 'stok'; // set menu yang sedang aktif
-        $user = UserModel::all(); 
-    
+        $user = UserModel::all();
+
         return view('stok.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
@@ -34,14 +36,14 @@ class StokController extends Controller
     {
         $stok = StokModel::select('stok_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
             ->with(['barang', 'user']);
-    
+
         // filter data user berdasarkan user_id
         if ($request->user_id) {
             $stok->where('user_id', $request->user_id);
         }
-    
+
         return DataTables::of($stok)
-             // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
+            // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
             ->addIndexColumn()
             ->addColumn('aksi', function ($stok) { // menambahkan kolom aksi
                 //$btn = '<a href="'.url('/stok/' . $stok->stok_id).'" class="btn btn-info btn-sm">Detail</a> ';
@@ -51,11 +53,10 @@ class StokController extends Controller
                 //    '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
                 //return $btn;
 
-                $btn = '<button onclick="modalAction(\''.url('/stok/' . $stok->stok_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/stok/' . $stok->stok_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/stok/' . $stok->stok_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn = '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
-
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
             ->make(true);
@@ -74,7 +75,7 @@ class StokController extends Controller
         ];
 
         $barang = BarangModel::all();
-        $user = UserModel::all(); 
+        $user = UserModel::all();
         $activeMenu = 'stok'; // set menu yang sedang aktif
 
         return view('stok.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'user' => $user, 'activeMenu' => $activeMenu]);
@@ -116,7 +117,7 @@ class StokController extends Controller
 
         $activeMenu = 'stok'; // set menu yang sedang aktif
 
-        return view('stok.show', ['breadcrumb' => $breadcrumb, 'page' => $page,'stok' => $stok, 'activeMenu' => $activeMenu]);
+        return view('stok.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'stok' => $stok, 'activeMenu' => $activeMenu]);
     }
 
     // Menampilkan halaman form edit barang
@@ -134,7 +135,7 @@ class StokController extends Controller
         ];
 
         $barang = BarangModel::all();
-        $user = UserModel::all(); 
+        $user = UserModel::all();
         $activeMenu = 'stok'; // set menu yang sedang aktif
 
         return view('stok.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'stok' => $stok, 'barang' => $barang, 'user' => $user, 'activeMenu' => $activeMenu]);
@@ -166,8 +167,8 @@ class StokController extends Controller
         $barang = BarangModel::select('barang_id', 'barang_nama')->get();
         $user = UserModel::select('user_id', 'nama')->get();
         return view('stok.create_ajax')
-                    ->with('barang', $barang)
-                    ->with('user', $user);
+            ->with('barang', $barang)
+            ->with('user', $user);
     }
 
     public function store_ajax(Request $request)
@@ -185,9 +186,9 @@ class StokController extends Controller
 
             if ($validator->fails()) {
                 return response()->json([
-                    'status'  => false, 
+                    'status'  => false,
                     'message' => 'Validasi Gagal',
-                    'msgField' => $validator->errors(), 
+                    'msgField' => $validator->errors(),
                 ]);
             }
 
@@ -222,7 +223,7 @@ class StokController extends Controller
 
             $validator = Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) { 
+            if ($validator->fails()) {
                 return response()->json([
                     'status'   => false, // respon json, true: berhasil, false: gagal 
                     'message'  => 'Validasi gagal.',
@@ -230,9 +231,9 @@ class StokController extends Controller
                 ]);
             }
 
-            $check = StokModel::find($id); 
+            $check = StokModel::find($id);
             if ($check) {
-                $check->update($request->all()); 
+                $check->update($request->all());
                 return response()->json([
                     'status'  => true,
                     'message' => 'Data stok berhasil diupdate'
@@ -290,5 +291,134 @@ class StokController extends Controller
             // Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
             return redirect('/stok')->with('error', 'Data stok gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
+    }
+
+    public function import()
+    {
+        return view('stok.import');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_stok' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $file = $request->file('file_stok');
+
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, false, true, true);
+
+            $insert = [];
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) {
+                        $insert[] = [
+                            'barang_id'     => $value['A'],
+                            'user_id'       => $value['B'],
+                            'stok_tanggal'  => $value['C'],
+                            'stok_jumlah'   => $value['D'],
+                            'created_at'    => now(),
+                        ];
+                    }
+                }
+
+                if (count($insert) > 0) {
+                    StokModel::insertOrIgnore($insert);
+                }
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Data stok berhasil diimport'
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Tidak ada data yang diimport'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function export_excel()
+    {
+        $stok = StokModel::select('barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
+            ->orderBy('user_id')
+            ->with('barang', 'user')
+            ->get();
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama Barang');
+        $sheet->setCellValue('C1', 'Nama User');
+        $sheet->setCellValue('D1', 'Tanggal');
+        $sheet->setCellValue('E1', 'Jumlah Stok');
+
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true);
+
+        $no = 1;
+        $baris = 2;
+        foreach ($stok as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->barang->barang_nama);
+            $sheet->setCellValue('C' . $baris, $value->user->nama);
+            $sheet->setCellValue('D' . $baris, $value->stok_tanggal);
+            $sheet->setCellValue('E' . $baris, $value->stok_jumlah);
+            $baris++;
+            $no++;
+        }
+
+        foreach (range('A', 'E') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $sheet->setTitle('Data Stok');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Stok ' . date('Y-m-d H:i:s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    }
+
+    public function export_pdf()
+    {
+        $stok = StokModel::select('barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
+            ->orderBy('user_id')
+            ->with('barang', 'user')
+            ->get();
+
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = Pdf::loadView('stok.export_pdf', ['stok' => $stok]);
+        $pdf->setPaper('a4', 'portrait');
+        $pdf->setOption("isRemoteEnabled", true);
+        $pdf->render();
+
+        return $pdf->stream('Data Stok ' . date('Y-m-d H:i:s') . '.pdf');
     }
 }
