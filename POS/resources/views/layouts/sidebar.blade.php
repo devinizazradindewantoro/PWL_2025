@@ -58,6 +58,12 @@
           <p>Transaksi Penjualan</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ url('/barang') }}" class="nav-link {{ ($activeMenu == 'penjualan')? 'active' : '' }} ">
+          <i class="nav-icon fas fa-file-invoice-dollar"></i>
+          <p>Detail Penjualan</p>
+        </a>
+      </li>
       <!-- Menambahkan Menu Logout -->
       <li class="nav-header">Log Out</li>
       <li class="nav-item">
