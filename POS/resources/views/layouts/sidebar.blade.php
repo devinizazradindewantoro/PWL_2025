@@ -58,6 +58,12 @@
           <p>Transaksi Penjualan</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ url('/supplier') }}" class="nav-link {{ ($activeMenu == 'supplier')? 'active' : '' }} ">
+        <i class="nav-icon far fa-list-alt"></i>
+          <p>Data Supplier</p>
+        </a>
+      </li>
       <!-- Menambahkan Menu Logout -->
       <li class="nav-header">Log Out</li>
       <li class="nav-item">
