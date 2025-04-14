@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Data User</title>
+    <title>Laporan Data Stok</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -54,7 +54,7 @@
     <table class="border-bottom-header">
         <tr>
             <td width="15%" class="text-center">
-                <img src="{{ asset('polinema-bw.png') }}" alt="Logo Polinema" style="width: 120px; height: auto;">
+                <img src="{{ asset('Polinema-logo.png') }}" alt="Logo Polinema" style="width: 120px; height: auto;">
             </td>
             <td width="85%">
                 <span class="text-center d-block font-11 font-bold mb-1">
@@ -76,24 +76,26 @@
         </tr>
     </table>
     
-    <h3 class="text-center">LAPORAN DATA USER</h3>
+    <h3 class="text-center">LAPORAN DATA STOK</h3>
     
     <table class="border-all">
         <thead>
             <tr>
                 <th class="text-center">No</th>
-                <th>Username</th>
-                <th>Nama</th>
-                <th>Level Pengguna</th>
+                <th>Nama Barang</th>
+                <th>Nama User</th>
+                <th>Tanggal Stok</th>
+                <th class="text-right">Jumlah Stok</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($user as $u)
+            @foreach($stok as $s)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
-                    <td>{{ $u->username }}</td>
-                    <td>{{ $u->nama }}</td>
-                    <td>{{ $u->level->level_nama }}</td>
+                    <td>{{ $s->barang->barang_nama }}</td>
+                    <td>{{ $s->user->username }}</td>
+                    <td>{{ $s->stok_tanggal }}</td>
+                    <td class="text-right">{{ number_format($s->stok_jumlah, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>

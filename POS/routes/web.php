@@ -5,6 +5,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -159,6 +160,30 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/export_excel', [StokController::class, 'export_excel']);           // export excel
             Route::get('/export_pdf', [StokController::class, 'export_pdf']);               // export pdf
             Route::delete('/{id}', [StokController::class, 'destroy']);                     // menghapus data stok
+        });
+    });
+
+    Route::group(['prefix' => 'supplier'], function () {
+        Route::middleware(['authorize:ADM,MNG'])->group(function (){
+            Route::get('/', [SupplierController::class, 'index']);       
+            Route::post('/list', [SupplierController::class, 'list']);    
+            Route::get('/create', [SupplierController::class, 'create']); 
+            Route::post('/', [SupplierController::class, 'store']);  
+            Route::get('/create_ajax', [SupplierController::class, 'create_ajax']);             
+            Route::post('/ajax', [SupplierController::class, 'store_ajax']);  
+            Route::get('/{id}', [SupplierController::class, 'show']);
+            Route::get('/{id}/show_ajax', [SupplierController::class, 'show_ajax']);     
+            Route::get('/{id}/edit', [SupplierController::class, 'edit']);
+            Route::put('/{id}', [SupplierController::class, 'update']);   
+            Route::get('/{id}/edit_ajax', [SupplierController::class, 'edit_ajax']);           
+            Route::put('/{id}/update_ajax', [SupplierController::class, 'update_ajax']);       
+            Route::get('/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']);       
+            Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']);   
+            Route::delete('/{id}', [SupplierController::class, 'destroy']);
+            Route::get('/import', [SupplierController::class, 'import']);                     
+            Route::post('/import_ajax', [SupplierController::class, 'import_ajax']);
+            Route::get('/export_excel', [SupplierController::class, 'export_excel']);
+            Route::get('/export_pdf', [SupplierController::class, 'export_pdf']);
         });
     });
 });
