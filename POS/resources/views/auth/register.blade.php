@@ -22,7 +22,7 @@
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="{{ url('/') }}" class="h4">PWL - Starter Code</a>
+                <a href="{{ url('/') }}" class="h4">Point of Sales</a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">New User Registration</p>

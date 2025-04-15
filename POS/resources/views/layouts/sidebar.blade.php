@@ -70,6 +70,12 @@
           <p>Transaksi Penjualan</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ url('/detail') }}" class="nav-link {{ ($activeMenu == 'detail')? 'active' : '' }} ">
+          <i class="nav-icon fas fa-file-invoice-dollar"></i>
+          <p>Detail Penjualan</p>
+        </a>
+      </li>
       <!-- Menambahkan Menu Logout -->
       <li class="nav-item">
           <a href="{{ url('/logout') }}" class="nav-link text-danger {{ ($activeMenu == 'logout') ? 'active' : '' }}">
