@@ -1,33 +1,38 @@
-<form action="{{ url('/supplier/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/penjualan/ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Supplier</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Penjualan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Kode Supplier</label>
-                    <input value="" type="text" name="supplier_kode" id="supplier_kode" class="form-control" required>
-                    <small id="error-supplier_kode" class="error-text form-text text-danger"></small>
+                    <label>Kode Penjualan</label>
+                    <input value="" type="text" name="penjualan_kode" id="penjualan_kode" class="form-control" required>
+                    <small id="error-penjualan_kode" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Nama Supplier</label>
-                    <input value="" type="text" name="supplier_nama" id="supplier_nama" class="form-control" required>
-                    <small id="error-supplier_nama" class="error-text form-text text-danger"></small>
+                    <label>User</label>
+                    <select name="user_id" id="user_id" class="form-control" required>
+                        <option value="">- Pilih User -</option>
+                        @foreach($user as $u)
+                            <option value="{{ $u->user_id }}">{{ $u->nama }}</option>
+                        @endforeach
+                    </select>
+                    <small id="error-user_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Telepon</label>
-                    <input value="" type="text" name="supplier_telp" id="supplier_telp" class="form-control" required>
-                    <small id="error-supplier_telp" class="error-text form-text text-danger"></small>
+                    <label>Nama Pembeli</label>
+                    <input value="" type="text" name="pembeli" id="pembeli" class="form-control" required>
+                    <small id="error-pembeli" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Alamat</label>
-                    <textarea name="supplier_alamat" id="supplier_alamat" class="form-control" required></textarea>
-                    <small id="error-supplier_alamat" class="error-text form-text text-danger"></small>
+                    <label>Tanggal Penjualan</label>
+                    <input value="" type="date" name="penjualan_tanggal" id="penjualan_tanggal" class="form-control" required>
+                    <small id="error-penjualan_tanggal" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -42,10 +47,10 @@
     $(document).ready(function() {
         $("#form-tambah").validate({ 
             rules: {
-                supplier_kode: {required: true, minlength: 3, maxlength: 20}, 
-                supplier_nama: {required: true, minlength: 3, maxlength: 100},
-                supplier_telp: {required: true, minlength: 8, maxlength: 15},
-                supplier_alamat: {required: true, minlength: 5, maxlength: 200}
+                penjualan_kode: { required: true, maxlength: 50 },
+                user_id: { required: true, number: true },
+                pembeli: { required: true, maxlength: 100 },
+                penjualan_tanggal: { required: true, date: true }
             },
             submitHandler: function(form) {
                 $.ajax({
@@ -60,11 +65,11 @@
                                 title: 'Berhasil', 
                                 text: response.message
                             });
-                            dataSupplier.ajax.reload(); 
+                            dataPenjualan.ajax.reload(); // Adjust this to your DataTable variable
                         } else {
                             $('.error-text').text('');
                             $.each(response.msgField, function(prefix, val) {
-                                $('#error-'+prefix).text(val[0]);
+                                $('#error-' + prefix).text(val[0]);
                             });
                             Swal.fire({
                                 icon: 'error',
@@ -72,6 +77,14 @@
                                 text: response.message
                             });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error AJAX',
+                            text: 'Terjadi kesalahan: ' + xhr.status + ' - ' + error
+                        });
+                        console.log('Error:', xhr.responseText);
                     }
                 });
                 return false;

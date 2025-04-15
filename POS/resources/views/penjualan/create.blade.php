@@ -7,40 +7,45 @@
             <div class="card-tools"></div>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ url('supplier') }}" class="form-horizontal"> 
+            <form method="POST" action="{{ url('penjualan') }}" class="form-horizontal"> 
                 @csrf
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Kode Supplier</label>
+                    <label class="col-1 control-label col-form-label">Kode Penjualan</label>
                     <div class="col-11">
-                        <input type="text" class="form-control" id="supplier_kode" name="supplier_kode" value="{{ old('supplier_kode') }}" required>
-                        @error('supplier_kode')
+                        <input type="text" class="form-control" id="penjualan_kode" name="penjualan_kode" value="{{ old('penjualan_kode') }}" required>
+                        @error('penjualan_kode')
                             <small class="form-text text-danger">{{ $message }}</small> 
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Nama Supplier</label>
+                    <label class="col-1 control-label col-form-label">User</label>
                     <div class="col-11">
-                        <input type="text" class="form-control" id="supplier_nama" name="supplier_nama" value="{{ old('supplier_nama') }}" required>
-                        @error('supplier_nama')
+                        <select class="form-control" id="user_id" name="user_id" required>
+                            <option value="">- Pilih User -</option> 
+                            @foreach($user as $item)
+                                <option value="{{ $item->user_id }}">{{ $item->nama }}</option> 
+                            @endforeach
+                        </select> 
+                        @error('user_id')
                             <small class="form-text text-danger">{{ $message }}</small> 
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Telepon</label>
+                    <label class="col-1 control-label col-form-label">Nama Pembeli</label>
                     <div class="col-11">
-                        <input type="text" class="form-control" id="supplier_telp" name="supplier_telp" value="{{ old('supplier_telp') }}" required>
-                        @error('supplier_telp')
+                        <input type="text" class="form-control" id="pembeli" name="pembeli" value="{{ old('pembeli') }}" required>
+                        @error('pembeli')
                             <small class="form-text text-danger">{{ $message }}</small> 
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Alamat</label>
+                    <label class="col-1 control-label col-form-label">Tanggal Penjualan</label>
                     <div class="col-11">
-                        <textarea class="form-control" id="supplier_alamat" name="supplier_alamat" required>{{ old('supplier_alamat') }}</textarea>
-                        @error('supplier_alamat')
+                        <input type="date" class="form-control" id="penjualan_tanggal" name="penjualan_tanggal" value="{{ old('penjualan_tanggal') }}" required>
+                        @error('penjualan_tanggal')
                             <small class="form-text text-danger">{{ $message }}</small> 
                         @enderror
                     </div>
@@ -49,7 +54,7 @@
                     <label class="col-1 control-label col-form-label"></label>
                     <div class="col-11">
                         <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                        <a class="btn btn-sm btn-default ml-1" href="{{ url('supplier') }}">Kembali</a>
+                        <a class="btn btn-sm btn-default ml-1" href="{{ url('penjualan') }}">Kembali</a>
                     </div>
                 </div>
             </form>

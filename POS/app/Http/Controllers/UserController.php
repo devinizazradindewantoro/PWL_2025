@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\LevelModel;
 use App\Models\UserModel;
+use Illuminate\support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -225,13 +227,35 @@ class UserController extends Controller
                     'msgField' => $validator->errors() // menunjukkan field mana yang error
                 ]);
             }
-            $check = UserModel::find($id);
-            if ($check) {
+            $user = UserModel::find($id);
+            if ($user) {
                 if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
                     $request->request->remove('password');
                 }
 
-                $check->update($request->all());
+                if (!$request->filled('user_foto')) {
+                    $request->request->remove('user_foto');
+                }
+
+                // Cek jika ada file user_foto yang diunggah
+                if ($request->hasFile('user_foto')) {
+                    // Dapatkan file user_foto
+                    $file = $request->file('user_foto');
+                    // Buat nama unik untuk file user_foto tersebut
+                    $filename = 'profile_' . Auth::user()->user_id . '.' . $request->user_foto->getClientOriginalExtension();
+                    // Tentukan path penyimpanan
+                    $path = public_path('images/profile');
+                    // Simpan file di direktori 'images/profile'
+                    $file->move($path, $filename);
+
+                    // Simpan nama file user_foto baru di database
+                    $user->user_foto = $filename;
+                }
+
+                // Update data user kecuali user_foto (user_foto sudah di-handle di atas)
+                $user->update($request->except('user_foto'));
+
+                $user->update($request->all());
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil diupdate'
@@ -419,5 +443,67 @@ class UserController extends Controller
         $pdf->render();
 
         return $pdf->stream('Data User' . date('Y-m-d H:i:s') . '.pdf');
+    }
+
+    public function profile() 
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect('/login')->with('error', 'Silahkan login terlebih dahulu');
+        }
+
+        $breadcrumb = (object) [
+            'title' => 'Profile User',
+            'list' => ['Home', 'Profile']
+        ];
+
+        $page = (object) [
+            'title' => 'Profil Pengguna'
+        ];
+
+        $activeMenu = 'profile';
+
+        return view('user.photo_profile', compact('user', 'breadcrumb', 'page', 'activeMenu'));
+    }
+
+    public function update_photo(Request $request)
+    {
+        // Validasi file
+        $request->validate([
+            'photo_profile' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        try {
+            $user = auth()->user();
+
+            if (!$user) {
+                return redirect('/login')->with('error', 'Silahkan login terlebih dahulu');
+            }
+
+            $userId = $user->user_id;
+
+            $userModel = UserModel::find($userId);
+
+            if (!$userModel) {
+                return redirect('/login')->with('error', 'User tidak ditemukan');
+            }
+
+            // Menghapus foto jika sudah ada
+            if ($userModel->photo_profile && file_exists(storage_path('app/public/' . $userModel->photo_profile))) {
+                Storage::disk('public')->delete($userModel->photo_profile);
+            }
+
+            $fileName = 'profile_' . $userId . '_' . time() . '.' . $request->photo_profile->extension();
+            $path = $request->photo_profile->storeAs('profiles', $fileName, 'public');
+
+            UserModel::where('user_id', $userId)->update([
+                'photo_profile' => $path
+            ]);
+
+            return redirect()->back()->with('success', 'Foto profile berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengupload foto: ' . $e->getMessage());
+        }
     }
 }

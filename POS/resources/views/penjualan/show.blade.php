@@ -7,7 +7,7 @@
             <div class="card-tools"></div>
         </div>
         <div class="card-body"> 
-            @empty($supplier)
+            @empty($penjualan)
             <div class="alert alert-danger alert-dismissible">
                 <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5> 
                 Data yang Anda cari tidak ditemukan.
@@ -16,27 +16,27 @@
                 <table class="table table-bordered table-striped table-hover table-sm">
                     <tr>
                         <th>ID</th>
-                        <td>{{ $supplier->supplier_id }}</td>
+                        <td>{{ $penjualan->penjualan_id }}</td>
                     </tr>
                     <tr>
-                        <th>Kode Supplier</th>
-                        <td>{{ $supplier->supplier_kode }}</td>
+                        <th>Kode Penjualan</th>
+                        <td>{{ $penjualan->penjualan_kode }}</td>
                     </tr>
                     <tr>
-                        <th>Nama Supplier</th>
-                        <td>{{ $supplier->supplier_nama }}</td>
+                        <th>Nama User</th>
+                        <td>{{ $penjualan->user->nama }}</td>
                     </tr>
                     <tr>
-                        <th>Telepon</th>
-                        <td>{{ $supplier->supplier_telp }}</td>
+                        <th>Nama Pembeli</th>
+                        <td>{{ $penjualan->pembeli }}</td>
                     </tr>
                     <tr>
-                        <th>Alamat</th>
-                        <td>{{ $supplier->supplier_alamat }}</td>
+                        <th>Tanggal Penjualan</th>
+                        <td>{{ $penjualan->penjualan_tanggal }}</td>
                     </tr>
                 </table> 
             @endempty
-            <a href="{{ url('supplier') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+            <a href="{{ url('penjualan') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
         </div>
     </div> 
 @endsection

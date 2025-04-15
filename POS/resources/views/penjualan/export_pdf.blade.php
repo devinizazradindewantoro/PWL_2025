@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Data Supplier</title>
+    <title>Laporan Data Penjualan</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -76,26 +76,26 @@
         </tr>
     </table>
     
-    <h3 class="text-center">LAPORAN DATA SUPPLIER</h3>
+    <h3 class="text-center">LAPORAN DATA PENJUALAN</h3>
     
     <table class="border-all">
         <thead>
             <tr>
                 <th class="text-center">No</th>
-                <th>Kode Supplier</th>
-                <th>Nama Supplier</th>
-                <th>Telepon Supplier</th>
-                <th>Alamat Supplier</th>
+                <th>Nama User</th>
+                <th>Pembeli</th>
+                <th>Kode Penjualan</th>
+                <th>Tanggal Penjualan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($supplier as $s)
+            @foreach($penjualan as $p)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
-                    <td>{{ $s->supplier_kode }}</td>
-                    <td>{{ $s->supplier_nama }}</td>
-                    <td>{{ $s->supplier_telp }}</td>
-                    <td>{{ $s->supplier_alamat }}</td>
+                    <td>{{ $p->user->username }}</td>
+                    <td>{{ $p->pembeli }}</td>
+                    <td>{{ $p->penjualan_kode }}</td>
+                    <td>{{ $p->penjualan_tanggal }}</td>
                 </tr>
             @endforeach
         </tbody>
