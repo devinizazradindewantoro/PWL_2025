@@ -11,7 +11,7 @@
     </div>
 </div>
 @else
-<form action="{{ url('/detailPenjualan/' . $detail->detail_id . '/delete_ajax') }}" method="POST" id="form-delete">
+<form action="{{ url('/detail/' . $detail->detail_id . '/delete_ajax') }}" method="POST" id="form-delete">
     @csrf
     @method('DELETE')
     <div class="modal-dialog modal-lg">

@@ -51,31 +51,18 @@
     </style>
 </head>
 <body>
-    <table class="border-bottom-header">
+<table class="border-bottom-header">
         <tr>
-            <td width="15%" class="text-center">
-                <img src="{{ asset('polinema-bw.png') }}" alt="Logo Polinema" style="width: 120px; height: auto;">
-            </td>
+            <td width="15%" class="text-left"><img src="{{ asset('polinema-bw.png') }}" class="image"></td>
             <td width="85%">
-                <span class="text-center d-block font-11 font-bold mb-1">
-                    KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI
-                </span>
-                <span class="text-center d-block font-13 font-bold mb-1">
-                    POLITEKNIK NEGERI MALANG
-                </span>
-                <span class="text-center d-block font-10">
-                    Jl. Soekarno-Hatta No. 9 Malang 65141
-                </span>
-                <span class="text-center d-block font-10">
-                    Telepon (0341) 404424 Pes. 101-105, 0341-404420, Fax. (0341) 404420
-                </span>
-                <span class="text-center d-block font-10">
-                    Laman: www.polinema.ac.id
-                </span>
+                <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN PENDIDIKAN TINGGI, SAINS, DAN TEKNOLOGI</span>
+                <span class="text-center d-block font-13 font-bold mb-1">POLITEKNIK NEGERI MALANG</span>
+                <span class="text-center d-block font-10">Jl. Soekarno-Hatta No. 9 Malang 65141</span>
+                <span class="text-center d-block font-10">Telepon (0341) 404424 Pes. 101-105, 0341-404420, Fax. (0341) 404420</span>
+                <span class="text-center d-block font-10">Laman: www.polinema.ac.id</span>
             </td>
         </tr>
     </table>
-    
     <h3 class="text-center">LAPORAN DATA USER</h3>
     
     <table class="border-all">

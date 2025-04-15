@@ -1,4 +1,4 @@
-<form action="{{ url('/detailPenjualan/import_ajax') }}" method="POST" id="form-import-detail" enctype="multipart/form-data">
+<form action="{{ url('/detail/import_ajax') }}" method="POST" id="form-import-detail" enctype="multipart/form-data">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

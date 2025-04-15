@@ -5,10 +5,10 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/detailPenjualan/import') }}')" class="btn btn-info btn-sm">Import Data</button>
-                <a href="{{ url('/detailPenjualan/export_excel') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-excel"></i> Export Excel</a>
-                <a href="{{ url('/detailPenjualan/export_pdf') }}" class="btn btn-warning btn-sm"><i class="fa fa-file-pdf"></i> Export PDF</a>
-                <button onclick="modalAction('{{ url('/detailPenjualan/create_ajax/') }}')" class="btn btn-success btn-sm">Tambah Data</button>
+                <button onclick="modalAction('{{ url('/detail/import') }}')" class="btn btn-info btn-sm">Import Detail Penjualan</button>
+                <a href="{{ url('/detail/export_excel') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-excel"></i> Export Detail Penjualan</a>
+                <a href="{{ url('/detail/export_pdf') }}" class="btn btn-warning btn-sm"><i class="fa fa-file-pdf"></i> Export Detail Penjualan</a>
+                <button onclick="modalAction('{{ url('/detail/create_ajax/') }}')" class="btn btn-success btn-sm">Tambah Data</button>
             </div>
         </div>
 
@@ -73,7 +73,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('detailPenjualan/list') }}",
+                    url: "{{ url('detail/list') }}",
                     dataType: "json",
                     type: "POST",
                     data: function (d) {

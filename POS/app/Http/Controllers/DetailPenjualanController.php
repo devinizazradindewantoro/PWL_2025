@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
-use App\Models\DetailPenjualanModel;
 use App\Models\PenjualanModel;
+use App\Models\PenjualanDetailModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -32,7 +32,7 @@ class DetailpenjualanController extends Controller
     }
     public function list(Request $request)
     {
-        $details = DetailPenjualanModel::select('detail_id', 'penjualan_id', 'barang_id', 'harga', 'jumlah')
+        $details = PenjualanDetailModel::select('detail_id', 'penjualan_id', 'barang_id', 'harga', 'jumlah')
             ->with('barang')
             ->with('penjualan');
 
@@ -81,7 +81,7 @@ class DetailpenjualanController extends Controller
                 ]);
             }
 
-            DetailPenjualanModel::create($request->all());
+            PenjualanDetailModel::create($request->all());
 
             return response()->json([
                 'status' => true,
@@ -92,7 +92,7 @@ class DetailpenjualanController extends Controller
     }
     public function show_ajax(string $id)
     {
-        $detail = DetailPenjualanModel::select('detail_id', 'harga', 'jumlah', 'barang_id', 'penjualan_id')
+        $detail = PenjualanDetailModel::select('detail_id', 'harga', 'jumlah', 'barang_id', 'penjualan_id')
             ->with('barang')
             ->with('penjualan')
             ->find($id);
@@ -101,7 +101,7 @@ class DetailpenjualanController extends Controller
     }
     public function edit_ajax(string $id)
     {
-        $detail = DetailPenjualanModel::find($id);
+        $detail = PenjualanDetailModel::find($id);
         $barang = BarangModel::select('barang_id', 'barang_nama')->get();
         $penjualan = PenjualanModel::select('penjualan_id', 'penjualan_kode')->get();
         
@@ -127,7 +127,7 @@ class DetailpenjualanController extends Controller
                 ]);
             }
     
-            $check = DetailPenjualanModel::find($id);
+            $check = PenjualanDetailModel::find($id);
             if ($check) {
                 $check->update($request->all());
                 return response()->json([
@@ -145,13 +145,13 @@ class DetailpenjualanController extends Controller
     }
     public function confirm_ajax(string $id)
     {
-        $detail = DetailPenjualanModel::find($id);
+        $detail = PenjualanDetailModel::find($id);
         return view('detailPenjualan.confirm_ajax', ['detail' => $detail]);
     }
     public function delete_ajax(Request $request, $id)
     {
         if ($request->ajax() || $request->wantsJson()) {
-            $detail = DetailPenjualanModel::find($id);
+            $detail = PenjualanDetailModel::find($id);
             if ($detail) {
                 $detail->delete();
                 return response()->json([
@@ -209,7 +209,7 @@ class DetailpenjualanController extends Controller
                 }
     
                 if (count($insert) > 0) {
-                    DetailPenjualanModel::insertOrIgnore($insert);
+                    PenjualanDetailModel::insertOrIgnore($insert);
                     return response()->json([
                         'status' => true,
                         'message' => 'Data berhasil diimport'
@@ -227,7 +227,7 @@ class DetailpenjualanController extends Controller
     }
     public function export_excel()
     {
-        $detail = DetailPenjualanModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+        $detail = PenjualanDetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
             ->orderBy('penjualan_id')
             ->with('penjualan')
             ->with('barang')
@@ -278,7 +278,7 @@ class DetailpenjualanController extends Controller
     }
     public function export_pdf()
     {
-        $detail = DetailPenjualanModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+        $detail = PenjualanDetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
             ->orderBy('penjualan_id')
             ->with('penjualan')
             ->with('barang')
