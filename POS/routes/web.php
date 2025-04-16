@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
 
     // masukkan semua route yang perlu autentikasi di sini
     Route::group(['prefix' => 'user'], function () {
-        Route::middleware(['authorize:ADM,MNG,STF,CUS'])->group(function () {
+        Route::middleware(['authorize:ADM,MNG'])->group(function () {
             Route::get('/', [UserController::class, 'index']);                              // menampilkan halaman awal user
             Route::post('/list', [UserController::class, 'list']);                          // menampilkan data user dalam bentuk json untuk datatables
             Route::get('/create', [UserController::class, 'create']);                       // menampilkan halaman form tambah user
@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     });
 
     Route::group(['prefix' => 'kategori'], function () {
-        Route::middleware(['authorize:ADM,STF,MNG'])->group(function () {
+        Route::middleware(['authorize:ADM,MNG'])->group(function () {
             Route::get('/', [KategoriController::class, 'index']);                          // Menampilkan halaman awal daftar kategori   
             Route::post('/list', [KategoriController::class, 'list']);                      // menampilkan kategori dalam bentuk json untuk datatables
             Route::get('/create', [KategoriController::class, 'create']);                   // menampilkan halaman form tambah kategori 
@@ -129,7 +129,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     });
 
     Route::group(['prefix' => 'barang'], function () {
-        Route::middleware(['authorize:STF,MNG'])->group(function () {
+        Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
             Route::get('/', [BarangController::class, 'index']);                                // menampilkan halaman awal barang      
             Route::post('/list', [BarangController::class, 'list']);                            // menampilkan data barang dalam bentuk json untuk datatables    
             Route::get('/create', [BarangController::class, 'create']);                         // menampilkan halaman form tambah barang 
@@ -153,7 +153,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     });
 
     Route::group(['prefix' => 'stok'], function () {
-        Route::middleware(['authorize:STF,MNG'])->group(function () {
+        Route::middleware(['authorize:ADM,MNG'])->group(function () {
             Route::get('/', [StokController::class, 'index']);                              // menampilkan halaman awal stok   
             Route::post('/list', [StokController::class, 'list']);                          // menampilkan data stok dalam bentuk json untuk datatables   
             Route::get('/create', [StokController::class, 'create']);                       // menampilkan halaman form tambah stok
@@ -221,30 +221,6 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::post('/import_ajax', [PenjualanController::class, 'import_ajax']);
             Route::get('/export_excel', [PenjualanController::class, 'export_excel']);
             Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']);
-        });
-    });
-
-    Route::group(['prefix' => 'detail'], function () {
-        Route::middleware(['authorize:ADM,MNG,STF'])->group(function (){
-            Route::get('/', [DetailPenjualanController::class, 'index']);       
-            Route::post('/list', [DetailPenjualanController::class, 'list']);    
-            Route::get('/create', [DetailPenjualanController::class, 'create']); 
-            Route::post('/', [DetailPenjualanController::class, 'store']);  
-            Route::get('/create_ajax', [DetailPenjualanController::class, 'create_ajax']);             
-            Route::post('/ajax', [DetailPenjualanController::class, 'store_ajax']);  
-            Route::get('/{id}', [DetailPenjualanController::class, 'show']);
-            Route::get('/{id}/show_ajax', [DetailPenjualanController::class, 'show_ajax']);     
-            Route::get('/{id}/edit', [DetailPenjualanController::class, 'edit']);
-            Route::put('/{id}', [DetailPenjualanController::class, 'update']);   
-            Route::get('/{id}/edit_ajax', [DetailPenjualanController::class, 'edit_ajax']);           
-            Route::put('/{id}/update_ajax', [DetailPenjualanController::class, 'update_ajax']);       
-            Route::get('/{id}/delete_ajax', [DetailPenjualanController::class, 'confirm_ajax']);       
-            Route::delete('/{id}/delete_ajax', [DetailPenjualanController::class, 'delete_ajax']);   
-            Route::delete('/{id}', [DetailPenjualanController::class, 'destroy']);
-            Route::get('/import', [DetailPenjualanController::class, 'import']);                     
-            Route::post('/import_ajax', [DetailPenjualanController::class, 'import_ajax']);
-            Route::get('/export_excel', [DetailPenjualanController::class, 'export_excel']);
-            Route::get('/export_pdf', [DetailPenjualanController::class, 'export_pdf']);
         });
     });
 });
