@@ -8,7 +8,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4 text-center">
-                <img src="{{ $user->photo_profile ? asset('storage/'.$user->photo_profile) : asset('img/default-profile.png') }}" 
+                <img src="{{ $user->photo_profile ? asset('storage/'.$user->photo_profile) : asset('Default.jpeg') }}" 
                     class="img-circle elevation-2" alt="User Image" style="width: 200px; height: 200px; object-fit: cover;">
                 
                 <form action="{{ url('/update-photo') }}" method="POST" enctype="multipart/form-data" class="mt-3">

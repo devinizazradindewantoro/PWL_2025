@@ -17,7 +17,7 @@ class BarangController extends Controller
     {
         $activeMenu = 'barang';
         $breadcrumb = (object) [
-            'title' => 'Data Barang',
+            'title' => 'Daftar barang yang terdaftar dalam sistem',
             'list' => ['Home', 'Barang']
         ];
 
