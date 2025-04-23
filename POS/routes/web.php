@@ -81,7 +81,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     });
 
     Route::group(['prefix' => 'level'], function () {
-        Route::middleware(['authorize:ADM,MNG'])->group(function () {
+        Route::middleware(['authorize:ADM'])->group(function () {
             Route::get('/', [LevelController::class, 'index']);                             // Menampilkan halaman awal level user
             Route::post('/list', [LevelController::class, 'list']);                         // menampilkan level user dalam bentuk json untuk datatables
             Route::get('/create', [LevelController::class, 'create']);                      // menampilkan halaman form tambah level user

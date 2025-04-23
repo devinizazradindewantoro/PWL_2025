@@ -57,10 +57,6 @@
                         <small class="form-text text-muted">Abaikan jika tidak ingin ubah password</small>
                         <small id="error-password" class="error-text form-text text-danger"></small>
                     </div>
-                    <div class="form-group">
-                        <label for="user_profile">Foto Profil</label>
-                        <input type="file" class="form-control" id="user_profile" name="user_profile">
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
@@ -78,7 +74,6 @@
                     username: { required: true, minlength: 3, maxlength: 20 },
                     nama: { required: true, minlength: 3, maxlength: 100 },
                     password: { minlength: 6, maxlength: 20 },
-                    user_profile: {image: true}
                 },
                 submitHandler: function(form) {
                     $.ajax({

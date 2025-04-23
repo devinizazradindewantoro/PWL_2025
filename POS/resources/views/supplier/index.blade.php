@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layouts3.template')
 
 @section('content')
     <div class="card card-outline card-primary">

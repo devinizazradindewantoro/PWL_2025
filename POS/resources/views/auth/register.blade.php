@@ -29,22 +29,7 @@
 
                 <form method="POST" action="{{ url('register') }}" id="form-register">
                     @csrf
-                    <div class="input-group mb-3">
-                        <select class="form-control" id="level_id" name="level_id" required>
-                            <option value="">- Select Level -</option>
-                            @foreach ($level as $item)
-                                <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
-                            @endforeach
-                        </select>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-layer-groaup"></span>
-                            </div>
-                        </div>
-                        @error('level_id')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                    
                     <div class="input-group mb-3">
                         <input type="text" id="username" name="username" class="form-control" placeholder="Username" value="{{ old('username') }}" required>
                         <div class="input-group-append">

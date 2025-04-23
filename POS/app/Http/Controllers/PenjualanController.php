@@ -163,15 +163,15 @@ class PenjualanController extends Controller
             $penjualan = PenjualanModel::with('PenjualanDetail')->findOrFail($id);
 
             // Mengembalikkan jumlah stok
-            foreach ($penjualan->PenjualanDetail as $detail) {
-                $stok = StokModel::where('barang_id', $detail->barang_id)->first();
-                if ($stok) {
-                    $stok->update([
-                        'stok_jumlah' => $stok->stok_jumlah + $detail->jumlah,
-                        'user_id' => auth()->user()->user_id
-                    ]);
-                }
-            }
+            // foreach ($penjualan->PenjualanDetail as $detail) {
+            //     $stok = StokModel::where('barang_id', $detail->barang_id)->first();
+            //     if ($stok) {
+            //         $stok->update([
+            //             'stok_jumlah' => $stok->stok_jumlah + $detail->jumlah,
+            //             'user_id' => auth()->user()->user_id
+            //         ]);
+            //     }
+            // }
 
             // Hapus detail transaksi
             PenjualanDetailModel::where('penjualan_id', $id)->delete();
