@@ -31,3 +31,21 @@ Route::post('levels', [LevelController::class, 'store']);
 Route::get('levels/{level}', [LevelController::class, 'show']);
 Route::put('levels/{level}', [LevelController::class, 'update']);
 Route::delete('levels/{level}', [LevelController::class, 'destroy']);
+
+Route::get('users', [UserController::class, 'index']);
+Route::post('users', [UserController::class, 'store']);
+Route::get('users/{user}', [UserController::class, 'show']);
+Route::put('users/{user}', [UserController::class, 'update']);
+Route::delete('users/{user}', [UserController::class, 'destroy']);
+
+Route::get('category', [KategoriController::class, 'index']);
+Route::post('category', [KategoriController::class, 'store']);
+Route::get('category/{kategori}', [KategoriController::class, 'show']);
+Route::put('category/{kategori}', [KategoriController::class, 'update']);
+Route::delete('category/{kategori}', [KategoriController::class, 'destroy']);
+
+Route::get('items', [BarangController::class, 'index']);
+Route::post('items', [BarangController::class, 'store']);
+Route::get('items/{barang}', [BarangController::class, 'show']);
+Route::put('items/{barang}', [BarangController::class, 'update']);
+Route::delete('items/{barang}', [BarangController::class, 'destroy']);
